@@ -1,8 +1,11 @@
 import Joi from 'joi';
 
+const usernameMessage = 'Username is required';
+const passwordMessage = 'Password is required';
+
 const userSchema = Joi.object({
   username: Joi.string().required().min(3).messages({
-    'any.required': 'Username is required',
+    'any.required': usernameMessage,
     'string.min': 'Username must be longer than 2 characters',
     'string.base': 'Username must be a string',
   }),
@@ -20,22 +23,36 @@ const userSchema = Joi.object({
   password: Joi.string().required().min(8).messages({
     'string.min': 'Password must be longer than 7 characters',
     'string.base': 'Password must be a string',
-    'any.required': 'Password is required',
+    'any.required': passwordMessage,
   }),
 });
 
 const loginSchema = Joi.object({
   username: Joi.required().messages({
-    'any.required': 'Username is required',
+    'any.required': usernameMessage,
   }),
   password: Joi.required().messages({
-    'any.required': 'Password is required',
+    'any.required': passwordMessage,
+  }),
+});
+
+const productSchema = Joi.object({
+  name: Joi.string().required().min(3).messages({
+    'any.required': 'Name is required',
+    'string.min': 'Name must be longer than 2 characters',
+    'string.base': 'Name must be a string',
+  }),
+  amount: Joi.string().required().min(2).messages({
+    'string.min': 'Amount must be longer than 2 characters',
+    'string.base': 'Amount must be a string',
+    'any.required': 'Amount is required',
   }),
 });
 
 export {
   userSchema,
   loginSchema,
+  productSchema,
 };
 
 /*

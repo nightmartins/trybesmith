@@ -13,7 +13,6 @@ https://github.com/tryber/sd-014-b-project-trybesmith/pull/30
 
 const login = async ({ username, password }: InLogin) => {
   const response = await userLogin({ username, password });
-  console.log('retorno do service', response);
   
   return response;
 };

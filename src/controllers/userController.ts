@@ -39,10 +39,8 @@ const userLogin = async (req: Request, res: Response, _next: NextFunction) => {
   }
 
   const loginResponse = await login({ username, password });
-  console.log('retorno loginResponse', loginResponse);
 
   const loginData = Object.values(loginResponse)[0];
-  console.log('retorno loginData', loginData);
   
   if (!loginData || loginData === undefined) {
     return res.status(401).json({ error: 'Username or password invalid' });

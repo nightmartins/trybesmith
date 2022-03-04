@@ -1,28 +1,27 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import 'dotenv/config';
+import jwt from 'jsonwebtoken';
 
 const secret = 'segredo';
-
-export const authJWT = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization as string;
-
-  if (!token) {
-    return res.status(401).json({ error: 'Token not found' });
-  }
+const authJWT = async (req: Request, res: Response, next: NextFunction) => {
+  const { authorization } = req.headers;
 
   try {
-    jwt.verify(token, secret) as JwtPayload;
-    next();
-  } catch (error: any) {
-    if (error.message === 'invalid token') {
-      return res.status(401).json({ error: 'Invalid token' });
+    if (!authorization) {
+      return res.status(401).json({ error: 'Token not found' });
     }
+
+    jwt.verify(authorization, secret);
+    next();
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid token' });
   }
 };
 
 export default authJWT;
+
 /*
+Referência para criação da função:
+https://github.com/tryber/sd-014-b-project-trybesmith/pull/38
 Referência para correção da função:
-https://github.com/tryber/sd-014-b-project-trybesmith/pull/11
+https://github.com/tryber/sd-014-b-project-trybesmith/pull/42
 */
